@@ -9,11 +9,41 @@ import {
 } from "react-native";
 import { AppLoading, Asset, Font, Icon } from "expo";
 import AppNavigator from "./navigation/AppNavigator";
+import Counter from "./components/Counter";
 
 // For Redux
-import { createStore } from "redux";
+import { createStore, bindActionCreators } from "redux";
 
-const store = CreateStore(reducer);
+import { Provider } from "react-redux";
+
+/*  **STORE - Holds our state - THERE IS ONLY ONE STATE
+    **ACTION - State can be modified using actions - SIMPLE OBJECTS
+    **DISPATCHER - Action needs to be sent by someone - known as a dispatching an action
+    **REDUCER - receives the action and modifies the state to give us a new state
+        - pure function
+        - only mandatory argument is the 'type'
+    **SUBSCRIBER - listens for state change to update the UI (using connect)
+*/
+
+const initialState = {
+  counter: 10
+};
+
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "INCREASE_COUNTER":
+      return {
+        counter: state.counter + 1
+      };
+    case "DECREASE_COUNTER":
+      return {
+        counter: state.counter - 1
+      };
+  }
+  return state;
+};
+
+const store = createStore(reducer);
 
 export default class App extends React.Component {
   state = {
@@ -31,11 +61,15 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <View style={styles.container}>
-          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-          <AppNavigator />
-          {/* This sections is the part under the NAV bar */}
-        </View>
+        <Provider store={store}>
+          <Counter />
+        </Provider>
+
+        // <View style={styles.container}>
+        //   {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+        //   <AppNavigator />
+        //   {/* This sections is the part under the NAV bar */}
+        // </View>
       );
     }
   }

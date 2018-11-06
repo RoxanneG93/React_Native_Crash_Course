@@ -9,12 +9,19 @@ import {
   View
 } from "react-native";
 import { WebBrowser } from "expo";
-
 import { MonoText } from "../components/StyledText";
 
 import Component1 from "../components/Component1";
-
 import Counter from "../components/Counter";
+
+/*  **STORE - Holds our state - THERE IS ONLY ONE STATE
+    **ACTION - State can be modified using actions - SIMPLE OBJECTS
+    **DISPATCHER - Action needs to be sent by someone - known as a dispatching an action
+    **REDUCER - receives the action and modifies the state to give us a new state
+        - pure function
+        - only mandatory argument is the 'type'
+    **SUBSCRIBER - listens for state change to update the UI (using connect)
+*/
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -44,9 +51,6 @@ export default class HomeScreen extends React.Component {
 
           <View style={styles.getStartedContainer}>
             {this._maybeRenderDevelopmentModeWarning()}
-
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
             <View
               style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
             >
